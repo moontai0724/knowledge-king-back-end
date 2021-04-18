@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration from 'src/configuration';
+import configuration from './configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { validate, Environment } from 'src/env.validation';
+import { validate, Environment } from './env.validation';
 import { GroupSchema } from './models/group/group.schema';
 import { HistorySchema } from './models/history/history.schema';
 import { HistoryDetailSchema } from './models/history-detail/history-detail.schema';
