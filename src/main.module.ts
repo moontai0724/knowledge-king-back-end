@@ -3,6 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from 'src/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { validate, Environment } from 'src/env.validation';
+import { GroupSchema } from './models/group/group.schema';
+import { HistorySchema } from './models/history/history.schema';
+import { HistoryDetailSchema } from './models/history-detail/history-detail.schema';
+import { LeaderboardSchema } from './models/leaderboard/leaderboard.schema';
+import { QuestionSchema } from './models/question/question.schema';
+import { TopicSchema } from './models/topic/topic.schema';
+import { UserSchema } from './models/user/user.schema';
 
 @Module({
   imports: [
@@ -23,6 +30,16 @@ import { validate, Environment } from 'src/env.validation';
         timezone: configService.get('database.timezone'),
         synchronize:
           configService.get('environment') === Environment.Production,
+        autoLoadEntities: true,
+        entities: [
+          GroupSchema,
+          HistorySchema,
+          HistoryDetailSchema,
+          LeaderboardSchema,
+          QuestionSchema,
+          TopicSchema,
+          UserSchema,
+        ],
       }),
       inject: [ConfigService],
     }),
