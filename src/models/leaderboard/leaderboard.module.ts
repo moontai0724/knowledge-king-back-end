@@ -6,5 +6,6 @@ import { LeaderboardModelService } from './leaderboard.service';
 @Module({
   imports: [TypeOrmModule.forFeature([LeaderboardSchema])],
   providers: [LeaderboardModelService],
+  exports: [LeaderboardModelService],
 })
 export class LeaderboardModelModule {}

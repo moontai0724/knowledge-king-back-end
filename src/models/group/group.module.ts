@@ -6,5 +6,6 @@ import { GroupModelService } from './group.service';
 @Module({
   imports: [TypeOrmModule.forFeature([GroupSchema])],
   providers: [GroupModelService],
+  exports: [GroupModelService],
 })
 export class GroupModelModule {}
