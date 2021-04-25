@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +10,9 @@ import { LeaderboardSchema } from './models/leaderboard/leaderboard.schema';
 import { QuestionSchema } from './models/question/question.schema';
 import { TopicSchema } from './models/topic/topic.schema';
 import { UserSchema } from './models/user/user.schema';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { NormalResponseInterceptor } from './interceptors/normal-response.interceptor';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -29,7 +32,7 @@ import { UserSchema } from './models/user/user.schema';
         database: configService.get('database.database'),
         timezone: configService.get('database.timezone'),
         synchronize:
-          configService.get('environment') === Environment.Production,
+          configService.get('environment') !== Environment.Production,
         autoLoadEntities: true,
         entities: [
           GroupSchema,
@@ -44,5 +47,18 @@ import { UserSchema } from './models/user/user.schema';
       inject: [ConfigService],
     }),
   ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: NormalResponseInterceptor,
+    },
+  ],
 })
-export class MainModule {}
+export class MainModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+  }
+}

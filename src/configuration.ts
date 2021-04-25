@@ -1,3 +1,5 @@
+import { Environment } from './env.validation';
+
 export default () => ({
   environment: process.env.NODE_ENV,
   database: {
@@ -7,5 +9,8 @@ export default () => ({
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_DATABASE,
     timezone: process.env.DATABASE_TIMEZONE,
+  },
+  log: {
+    enabled: process.env.NODE_ENV !== Environment.Production,
   },
 });
