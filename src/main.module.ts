@@ -10,9 +10,11 @@ import { LeaderboardSchema } from './models/leaderboard/leaderboard.schema';
 import { QuestionSchema } from './models/question/question.schema';
 import { TopicSchema } from './models/topic/topic.schema';
 import { UserSchema } from './models/user/user.schema';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { NormalResponseInterceptor } from './interceptors/normal-response.interceptor';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { AuthModule } from './auth/auth.module';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 @Module({
   imports: [
@@ -46,11 +48,16 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
   providers: [
     {
       provide: APP_INTERCEPTOR,
       useClass: NormalResponseInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })
