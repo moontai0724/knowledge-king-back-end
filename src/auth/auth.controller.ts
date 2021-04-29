@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateUserParam } from '../models/user/user.class';
+import { User } from '../models/user/user.entity';
+import { CreateUserParam, UserPublicOwn } from '../models/user/user.class';
 import { RegisterDto } from './auth.dto';
 import { AuthService } from './auth.service';
 
@@ -12,9 +13,11 @@ export class AuthController {
     @Body()
     userDto: RegisterDto,
   ) {
-    const userToCreate = new CreateUserParam(userDto);
+    const userToCreate: CreateUserParam = new CreateUserParam(userDto);
     userToCreate.account = userToCreate.account.toLowerCase();
     userToCreate.email = userToCreate.email.toLowerCase();
-    return this.authService.register(userToCreate);
+
+    const user: User = await this.authService.register(userToCreate);
+    return new UserPublicOwn(user);
   }
 }

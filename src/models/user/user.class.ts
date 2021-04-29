@@ -1,4 +1,4 @@
-import { PartialType, PickType } from '@nestjs/mapped-types';
+import { OmitType, PartialType, PickType } from '@nestjs/mapped-types';
 import { plainToClass } from 'class-transformer';
 import { User } from './user.entity';
 
@@ -15,7 +15,17 @@ export class CreateUserParam extends PickType(User, [
   'permission',
 ] as const) {
   constructor(partial: Partial<CreateUserParam>) {
-    super(partial);
+    super();
     Object.assign(this, plainToClass(CreateUserParam, partial));
+  }
+}
+
+export class UserPublicOwn extends OmitType(User, ['password'] as const) {
+  constructor(partial: Partial<UserPublicOwn>) {
+    super();
+    Object.assign(
+      this,
+      plainToClass(UserPublicOwn, partial, { strategy: 'excludeAll' }),
+    );
   }
 }

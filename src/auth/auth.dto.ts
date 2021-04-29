@@ -1,7 +1,9 @@
-import { OmitType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 import { CreateUserParam } from '../models/user/user.class';
 
-export class RegisterDto extends OmitType(CreateUserParam, [
-  'permission',
-  'profile_photo',
+export class RegisterDto extends PickType(CreateUserParam, [
+  'name',
+  'email',
+  'account',
+  'password',
 ] as const) {}

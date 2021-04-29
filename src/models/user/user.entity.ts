@@ -1,4 +1,4 @@
-import { plainToClass } from 'class-transformer';
+import { Expose, plainToClass } from 'class-transformer';
 import {
   IsArray,
   IsDate,
@@ -22,14 +22,17 @@ export enum Role {
 
 export class User {
   @IsNumber()
+  @Expose()
   id: number;
 
   @IsNotEmpty()
   @IsString()
+  @Expose()
   name: string;
 
   @IsNotEmpty()
   @IsEmail()
+  @Expose()
   email: string;
 
   @ValidateBy({
@@ -38,23 +41,29 @@ export class User {
   })
   @IsNotEmpty()
   @IsString()
+  @Expose()
   account: string;
 
   @IsNotEmpty()
   @IsString()
+  @Expose()
   password: string;
 
   @IsDate()
+  @Expose()
   registered_at: Date;
 
   @IsOptional()
   @IsString()
+  @Expose()
   profile_photo: string | null = null;
 
   @IsEnum(Role)
+  @Expose()
   permission: Role = Role.USER;
 
   @IsArray()
+  @Expose()
   histories: History[];
 
   constructor(partial: Partial<User>) {
