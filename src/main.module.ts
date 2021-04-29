@@ -35,7 +35,7 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
         timezone: configService.get('database.timezone'),
         synchronize:
           configService.get('environment') !== Environment.Production,
-        autoLoadEntities: true,
+        autoLoadEntities: false,
         entities: [
           GroupSchema,
           HistorySchema,
