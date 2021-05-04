@@ -13,4 +13,7 @@ export default () => ({
   log: {
     enabled: process.env.NODE_ENV !== Environment.Production,
   },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
 });

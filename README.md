@@ -5,8 +5,17 @@ Knowledge King is questioning and answering system developed for evaluate member
 # Commands
 
 ## Installation
+### Install dependencies
 ```bash
 yarn install
+```
+
+### Setup environment variables
+
+Copy .env file and set it up.
+
+```bash
+cp .env.example .env
 ```
 
 ## Running the app
