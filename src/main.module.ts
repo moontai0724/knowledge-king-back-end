@@ -15,6 +15,8 @@ import { NormalResponseInterceptor } from './interceptors/normal-response.interc
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -45,6 +47,33 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
           TopicSchema,
           UserSchema,
         ],
+      }),
+      inject: [ConfigService],
+    }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        transport: {
+          host: configService.get('mail.host'),
+          port: +configService.get('mail.port'),
+          secureConnection: configService.get('mail.tls'),
+          auth: {
+            user: configService.get('mail.username'),
+            pass: configService.get('mail.password'),
+          },
+        },
+        defaults: {
+          from: `"Knowledge King System" <${configService.get(
+            'mail.username',
+          )}>`,
+        },
+        template: {
+          dir: process.cwd() + '/templates',
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
+        },
       }),
       inject: [ConfigService],
     }),

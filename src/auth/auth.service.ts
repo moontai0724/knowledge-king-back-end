@@ -1,10 +1,12 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserParam } from '../models/user/user.class';
 import { User } from '../models/user/user.entity';
 import { UserModelService } from '../models/user/user.service';
-import { LoggedInUser } from './auth.class';
+import { ResetPasswordPayload, LoggedInUser } from './auth.class';
+import { ForgotPasswordDto } from './auth.dto';
 import {
   AccessTokenPayload,
   JWTInfo,
@@ -17,6 +19,7 @@ export class AuthService {
     private configService: ConfigService,
     private userModelService: UserModelService,
     private jwtService: JwtService,
+    private mailerService: MailerService,
   ) {}
 
   async register(userToCreate: CreateUserParam): Promise<User> {
@@ -75,5 +78,42 @@ export class AuthService {
     });
 
     return token;
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const user = await this.userModelService
+      .findOne({ email: forgotPasswordDto.email })
+      .catch(() => null);
+    if (!user) return;
+
+    this.sendResetPasswordToken(user);
+  }
+
+  async sendResetPasswordToken(user: User): Promise<boolean> {
+    const payload: ResetPasswordPayload = {
+      email: user.email,
+      password: user.password,
+    };
+    const resetToken = this.jwtService.sign(payload, {
+      secret: this.configService.get('jwt.secret').concat('-reset'),
+      expiresIn: '1h',
+    });
+
+    const result = await this.mailerService.sendMail({
+      to: user.email,
+      subject: '[知識王] 密碼重置申請信',
+      template: './reset-password',
+      context: {
+        userName: user.name,
+        baseUrl: this.configService.get('host'),
+        resetToken: resetToken,
+      },
+    });
+
+    return result.accepted.includes(user.email);
+  }
+
+  async setPassword(user: User, password: string): Promise<boolean> {
+    return !!(await this.userModelService.update(user, { password }));
   }
 }

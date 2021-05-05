@@ -6,10 +6,17 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AccessStrategy, RefreshStrategy } from './jwt/jwt.strategy';
 import { LocalStrategy } from './local/local.strategy';
+import { ResetPasswordStrategy } from './local/reset-password.strategy';
 
 @Module({
   imports: [UserModelModule, PassportModule, JwtModule.register({})],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, AccessStrategy, RefreshStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    AccessStrategy,
+    RefreshStrategy,
+    ResetPasswordStrategy,
+  ],
 })
 export class AuthModule {}

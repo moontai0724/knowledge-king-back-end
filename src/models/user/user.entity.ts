@@ -1,4 +1,4 @@
-import { Expose, plainToClass } from 'class-transformer';
+import { Expose, plainToClass, Type } from 'class-transformer';
 import {
   IsArray,
   IsDate,
@@ -9,6 +9,7 @@ import {
   IsOptional,
   IsString,
   ValidateBy,
+  ValidateNested,
 } from 'class-validator';
 import { AccountValidator } from '../../validators/account.validator';
 import { History } from '../history/history.entity';
@@ -23,16 +24,19 @@ export enum Role {
 export class User {
   @IsNumber()
   @Expose()
+  @Type(() => Number)
   id: number;
 
   @IsNotEmpty()
   @IsString()
   @Expose()
+  @Type(() => String)
   name: string;
 
   @IsNotEmpty()
   @IsEmail()
   @Expose()
+  @Type(() => String)
   email: string;
 
   @ValidateBy({
@@ -42,20 +46,24 @@ export class User {
   @IsNotEmpty()
   @IsString()
   @Expose()
+  @Type(() => String)
   account: string;
 
   @IsNotEmpty()
   @IsString()
   @Expose()
+  @Type(() => String)
   password: string;
 
   @IsDate()
   @Expose()
+  @Type(() => Date)
   registered_at: Date;
 
   @IsOptional()
   @IsString()
   @Expose()
+  @Type(() => String)
   profile_photo: string | null = null;
 
   @IsEnum(Role)
@@ -64,6 +72,8 @@ export class User {
 
   @IsArray()
   @Expose()
+  @ValidateNested()
+  @Type(() => History)
   histories: History[];
 
   constructor(partial: Partial<User>) {
