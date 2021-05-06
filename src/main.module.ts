@@ -10,13 +10,15 @@ import { LeaderboardSchema } from './models/leaderboard/leaderboard.schema';
 import { QuestionSchema } from './models/question/question.schema';
 import { TopicSchema } from './models/topic/topic.schema';
 import { UserSchema } from './models/user/user.schema';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { NormalResponseInterceptor } from './interceptors/normal-response.interceptor';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { AuthModule } from './auth/auth.module';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { RolesGuard } from './guards/roles.guard';
+import { JwtAccessGuard } from './auth/jwt/jwt.guard';
 
 @Module({
   imports: [
@@ -87,6 +89,14 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAccessGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

@@ -7,7 +7,9 @@ import { LocalAuthGuard } from './local/local.guard';
 import { LoggedInUser } from './auth.class';
 import { JwtRefreshGuard } from './jwt/jwt.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { Public } from '../decorators/public.decorator';
 
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
