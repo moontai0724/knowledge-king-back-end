@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { AdminModule } from './admin/admin.module';
 import { RolesGuard } from './guards/roles.guard';
 import { JwtAccessGuard } from './auth/jwt/jwt.guard';
 
@@ -80,6 +81,7 @@ import { JwtAccessGuard } from './auth/jwt/jwt.guard';
       inject: [ConfigService],
     }),
     AuthModule,
+    AdminModule,
   ],
   providers: [
     {
