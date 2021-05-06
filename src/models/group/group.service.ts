@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { FindOneGroupParam } from './group.class';
 import { Group } from './group.entity';
 import { GroupSchema } from './group.schema';
 
@@ -13,5 +14,11 @@ export class GroupModelService {
 
   findAll(): Promise<Group[]> {
     return this.repository.find();
+  }
+
+  findOne(where: FindOneGroupParam | FindOneGroupParam[]): Promise<Group> {
+    return this.repository.findOneOrFail({
+      where: where,
+    });
   }
 }
