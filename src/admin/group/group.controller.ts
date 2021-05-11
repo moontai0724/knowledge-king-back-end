@@ -5,7 +5,7 @@ import { Role } from '../../models/user/user.entity';
 import { GroupModelService } from '../../models/group/group.service';
 
 @Roles(Role.ADMIN, Role.AUDITOR)
-@Controller('admin/group')
+@Controller('admin/groups')
 export class GroupController {
   constructor(private groupModelService: GroupModelService) {}
 

@@ -15,7 +15,7 @@ import { Topic } from '../../models/topic/topic.entity';
 import { TopicModelService } from '../../models/topic/topic.service';
 import { CreateTopicDto, PatchTopicDto } from './topic.class';
 
-@Controller('admin/topic')
+@Controller('admin/topics')
 export class TopicController {
   constructor(
     private topicModelService: TopicModelService,
