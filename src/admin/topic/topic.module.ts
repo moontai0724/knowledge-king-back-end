@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { GroupModelModule } from 'src/models/group/group.module';
-import { TopicModelModule } from 'src/models/topic/topic.module';
+import { GroupModelModule } from '../../models/group/group.module';
+import { TopicModelModule } from '../../models/topic/topic.module';
 import { TopicController } from './topic.controller';
 
 @Module({
