@@ -8,6 +8,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  MaxLength,
   ValidateBy,
   ValidateNested,
 } from 'class-validator';
@@ -30,6 +31,7 @@ export class User {
   @IsNotEmpty()
   @IsString()
   @Expose()
+  @MaxLength(40)
   @Type(() => String)
   name: string;
 
@@ -46,6 +48,7 @@ export class User {
   @IsNotEmpty()
   @IsString()
   @Expose()
+  @MaxLength(20)
   @Type(() => String)
   account: string;
 
@@ -71,10 +74,11 @@ export class User {
   permission: Role = Role.USER;
 
   @IsArray()
+  @IsOptional()
   @Expose()
   @ValidateNested()
   @Type(() => History)
-  histories: History[];
+  histories?: History[];
 
   constructor(partial: Partial<User>) {
     Object.assign(this, plainToClass(User, partial));

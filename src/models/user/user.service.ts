@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { plainToClassFromExist } from 'class-transformer';
 import { Repository } from 'typeorm';
 import {
   CreateUserParam,
@@ -34,8 +35,15 @@ export class UserModelService {
   }
 
   update(user: User, params: UpdateUserParam): Promise<User> {
-    Object.assign(user, params);
+    plainToClassFromExist(user, params, {
+      strategy: 'excludeAll',
+      exposeDefaultValues: true,
+    });
     if (params.password) user.password = bcrypt.hashSync(user.password, 5);
     return this.repository.save(user);
+  }
+
+  async remove(user: User): Promise<User> {
+    return this.repository.remove(user);
   }
 }

@@ -18,5 +18,6 @@ import { ResetPasswordStrategy } from './local/reset-password.strategy';
     RefreshStrategy,
     ResetPasswordStrategy,
   ],
+  exports: [AuthService],
 })
 export class AuthModule {}
