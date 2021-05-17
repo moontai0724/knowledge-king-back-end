@@ -62,7 +62,7 @@ export class UserController {
     const user: User = await this.userModelService.findOne({ id: id });
 
     return this.userModelService.update(user, patchUserParam).catch(() => {
-      throw new BadRequestException(['email or account may already exists.']);
+      throw new BadRequestException('email or account may already exists.');
     });
   }
 
@@ -72,7 +72,7 @@ export class UserController {
       .findOne({ id: id })
       .catch(() => null);
     if (!target)
-      throw new NotFoundException(['user which you specific is not found']);
+      throw new NotFoundException('user which you specific is not found');
 
     return this.userModelService.remove(target);
   }

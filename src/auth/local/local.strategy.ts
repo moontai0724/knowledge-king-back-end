@@ -21,7 +21,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     const passwordCorrect = bcrypt.compareSync(password, user.password);
     if (!passwordCorrect) {
-      throw new ForbiddenException();
+      throw new ForbiddenException('username or password not correct');
     }
     return user;
   }

@@ -25,7 +25,8 @@ export class ResetPasswordStrategy extends PassportStrategy(
     const user = await this.userModelService.findOne({
       email: payload.email,
     });
-    if (payload.password !== user.password) throw new UnauthorizedException();
+    if (payload.password !== user.password)
+      throw new UnauthorizedException('password has been reset');
 
     if (this.configService.get<boolean>('log.enabled'))
       console.debug('User: ', user);
