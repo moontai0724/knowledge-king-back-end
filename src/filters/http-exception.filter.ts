@@ -30,7 +30,10 @@ export class ErrorResponse {
   data: string | string[];
   constructor(exception: BaseException) {
     this.message = exception.error;
-    this.data = exception.message;
+    this.data =
+      typeof exception.message === 'object'
+        ? exception.message
+        : [exception.message];
   }
 }
 
