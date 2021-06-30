@@ -20,6 +20,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { AdminModule } from './admin/admin.module';
 import { RolesGuard } from './guards/roles.guard';
 import { JwtAccessGuard } from './auth/jwt/jwt.guard';
+import { AppModule } from './app/app.module';
 
 @Module({
   imports: [
@@ -81,6 +82,7 @@ import { JwtAccessGuard } from './auth/jwt/jwt.guard';
       inject: [ConfigService],
     }),
     AuthModule,
+    AppModule,
     AdminModule,
   ],
   providers: [
