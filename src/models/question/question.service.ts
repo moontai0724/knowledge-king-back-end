@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GameQuestion } from '../../app/game/game.class';
 import { Repository } from 'typeorm';
 import { Question } from './question.entity';
 import { QuestionSchema } from './question.schema';
