@@ -8,6 +8,7 @@ import { LoggedInUser } from './auth.class';
 import { JwtRefreshGuard } from './jwt/jwt.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { Public } from '../decorators/public.decorator';
+import * as md5 from 'md5';
 
 @Public()
 @Controller('auth')
@@ -19,6 +20,8 @@ export class AuthController {
     const userToCreate: CreateUserParam = new CreateUserParam(userDto);
     userToCreate.account = userToCreate.account.toLowerCase();
     userToCreate.email = userToCreate.email.toLowerCase();
+    userToCreate.profile_photo =
+      'https://www.gravatar.com/avatar/' + md5(userToCreate.email);
 
     const user: User = await this.authService.register(userToCreate);
     return new UserPublicOwn(user);

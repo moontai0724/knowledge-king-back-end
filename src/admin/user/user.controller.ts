@@ -61,9 +61,12 @@ export class UserController {
   ): Promise<UserPublicOwn> {
     const user: User = await this.userModelService.findOne({ id: id });
 
-    return this.userModelService.update(user, patchUserParam).catch(() => {
-      throw new BadRequestException('email or account may already exists.');
-    });
+    return this.userModelService
+      .update(user, patchUserParam)
+      .catch(() => {
+        throw new BadRequestException('email or account may already exists.');
+      })
+      .then((user) => new UserPublicOwn(user));
   }
 
   @Delete(':id')
@@ -74,6 +77,8 @@ export class UserController {
     if (!target)
       throw new NotFoundException('user which you specific is not found');
 
-    return this.userModelService.remove(target);
+    return this.userModelService
+      .remove(target)
+      .then((user) => new UserPublicOwn(user));
   }
 }

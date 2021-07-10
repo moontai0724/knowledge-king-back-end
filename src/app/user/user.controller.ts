@@ -5,7 +5,7 @@ import { UserPublicOwn } from '../../models/user/user.class';
 export class UserController {
   @Get()
   async getProfile(@Request() request) {
-    let user: UserPublicOwn = new UserPublicOwn(request.user);
+    const user: UserPublicOwn = new UserPublicOwn(request.user);
     return user;
   }
 }
