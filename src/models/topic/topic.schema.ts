@@ -28,7 +28,7 @@ export const TopicSchema = new EntitySchema<Topic>({
     questions: {
       type: 'one-to-many',
       target: 'question',
-      joinColumn: true,
+      inverseSide: 'topic',
     },
   },
 });

@@ -35,7 +35,7 @@ export const HistorySchema = new EntitySchema<History>({
     details: {
       type: 'one-to-many',
       target: 'history_detail',
-      joinColumn: true,
+      inverseSide: 'history',
     },
   },
 });

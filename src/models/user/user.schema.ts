@@ -52,7 +52,7 @@ export const UserSchema = new EntitySchema<User>({
     histories: {
       type: 'one-to-many',
       target: 'history',
-      joinColumn: true,
+      inverseSide: 'user',
     },
   },
 });
