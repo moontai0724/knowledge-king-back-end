@@ -21,6 +21,8 @@ import { AdminModule } from './admin/admin.module';
 import { RolesGuard } from './guards/roles.guard';
 import { JwtAccessGuard } from './auth/jwt/jwt.guard';
 import { AppModule } from './app/app.module';
+import { UserSubscriber } from './models/user/user.subscriber';
+import { HistorySubscriber } from './models/history/history.subscriber';
 
 @Module({
   imports: [
@@ -51,6 +53,7 @@ import { AppModule } from './app/app.module';
           TopicSchema,
           UserSchema,
         ],
+        subscribers: [UserSubscriber, HistorySubscriber],
       }),
       inject: [ConfigService],
     }),

@@ -80,6 +80,48 @@ export class User {
   @Type(() => History)
   histories?: History[];
 
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  total_question_distincted?: number;
+
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  total_answered_distincted?: number;
+
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  total_question?: number;
+
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  total_answered?: number;
+
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  total_correct?: number;
+
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  total_time_limit?: number;
+
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  total_time_used?: number;
+
   constructor(partial: Partial<User>) {
     Object.assign(this, plainToClass(User, partial));
   }

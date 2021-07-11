@@ -22,7 +22,10 @@ export class CreateUserParam extends PickType(User, [
 
 export class UpdateUserParam extends PartialType(CreateUserParam) {}
 
-export class UserPublicOwn extends OmitType(User, ['password'] as const) {
+export class UserPublicOwn extends OmitType(User, [
+  'password',
+  'histories',
+] as const) {
   constructor(partial: Partial<UserPublicOwn>) {
     super();
     Object.assign(

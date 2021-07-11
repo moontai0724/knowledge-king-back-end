@@ -25,7 +25,13 @@ export class UserModelService {
   }
 
   findAll(): Promise<User[]> {
-    return this.repository.find();
+    return this.repository.find({
+      relations: [
+        'histories',
+        'histories.details',
+        'histories.details.question',
+      ],
+    });
   }
 
   findOne(params: SearchOneUserParam | SearchOneUserParam[]): Promise<User> {
