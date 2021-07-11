@@ -23,21 +23,21 @@ export enum Role {
 }
 
 export class User {
-  @IsNumber()
   @Expose()
+  @IsNumber()
   @Type(() => Number)
   id: number;
 
-  @IsNotEmpty()
-  @IsString()
   @Expose()
+  @IsString()
+  @IsNotEmpty()
   @MaxLength(40)
   @Type(() => String)
   name: string;
 
-  @IsNotEmpty()
-  @IsEmail()
   @Expose()
+  @IsEmail()
+  @IsNotEmpty()
   @Type(() => String)
   email: string;
 
@@ -45,37 +45,37 @@ export class User {
     name: 'ACCOUNT_VALIDATOR',
     validator: new AccountValidator(),
   })
-  @IsNotEmpty()
-  @IsString()
   @Expose()
+  @IsString()
+  @IsNotEmpty()
   @MaxLength(20)
   @Type(() => String)
   account: string;
 
-  @IsNotEmpty()
-  @IsString()
   @Expose()
+  @IsString()
+  @IsNotEmpty()
   @Type(() => String)
   password: string;
 
-  @IsDate()
   @Expose()
+  @IsDate()
   @Type(() => Date)
   registered_at: Date;
 
-  @IsOptional()
-  @IsString()
   @Expose()
+  @IsString()
+  @IsOptional()
   @Type(() => String)
   profile_photo: string | null = null;
 
-  @IsEnum(Role)
   @Expose()
+  @IsEnum(Role)
   permission: Role = Role.USER;
 
+  @Expose()
   @IsArray()
   @IsOptional()
-  @Expose()
   @ValidateNested()
   @Type(() => History)
   histories?: History[];

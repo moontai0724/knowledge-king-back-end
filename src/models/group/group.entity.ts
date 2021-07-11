@@ -1,20 +1,21 @@
 import { Expose, Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class Group {
-  @IsNumber()
   @Expose()
+  @IsNumber()
   @Type(() => Number)
   id: number;
 
-  @IsNotEmpty()
-  @IsString()
   @Expose()
+  @IsString()
+  @IsNotEmpty()
   @Type(() => String)
   title: string;
 
-  @IsString()
   @Expose()
+  @IsString()
+  @IsOptional()
   @Type(() => String)
   image_path: string | null;
 }
