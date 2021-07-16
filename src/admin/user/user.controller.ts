@@ -11,14 +11,10 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../../auth/auth.service';
 import { RequireRole } from '../../decorators/roles.decorator';
-import {
-  CreateUserParam,
-  UpdateUserParam,
-  UserPublicOwn,
-} from '../../models/user/user.class';
+import { CreateUserParam, UserPublicOwn } from '../../models/user/user.class';
 import { Role, User } from '../../models/user/user.entity';
 import { UserModelService } from '../../models/user/user.service';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, UpdateUserDto } from './user.dto';
 
 @RequireRole(Role.ADMIN)
 @Controller('admin/users')
@@ -57,7 +53,7 @@ export class UserController {
   @Patch(':id')
   async patchOne(
     @Param('id') id: number,
-    @Body() patchUserParam: UpdateUserParam,
+    @Body() patchUserParam: UpdateUserDto,
   ): Promise<UserPublicOwn> {
     const user: User = await this.userModelService.findOne({ id: id });
 
