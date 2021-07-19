@@ -24,7 +24,6 @@ export class UserController {
     private authService: AuthService,
   ) {}
 
-  @Roles(Role.AUDITOR)
   @Get()
   async findAll(): Promise<UserPublicOwn[]> {
     const users = await this.userModelService.findAll();
