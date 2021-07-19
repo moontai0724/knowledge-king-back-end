@@ -13,14 +13,13 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user: User = request.user;
 
-    const requireRoles = this.reflector.getAllAndMerge<Role[]>('requireRole', [
+    const roles = this.reflector.getAllAndMerge<Role[]>('roles', [
       context.getHandler(),
       context.getClass(),
     ]);
+    const requireRole = roles.length > 0 ? Math.min(...roles) : Role.USER;
 
-    return (
-      (requireRoles.length > 0 ? Math.min(...requireRoles) : Role.USER) <=
-      (user?.permission ?? Role.USER)
-    );
+    return requireRole <= (user?.permission ?? Role.USER);
   }
 }
+export default RolesGuard;

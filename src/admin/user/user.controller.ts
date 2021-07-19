@@ -10,13 +10,13 @@ import {
   Post,
 } from '@nestjs/common';
 import { AuthService } from '../../auth/auth.service';
-import { RequireRole } from '../../decorators/roles.decorator';
+import { Roles } from '../../decorators/roles.decorator';
 import { CreateUserParam, UserPublicOwn } from '../../models/user/user.class';
 import { Role, User } from '../../models/user/user.entity';
 import { UserModelService } from '../../models/user/user.service';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 
-@RequireRole(Role.ADMIN)
+@Roles(Role.ADMIN)
 @Controller('admin/users')
 export class UserController {
   constructor(
@@ -24,14 +24,14 @@ export class UserController {
     private authService: AuthService,
   ) {}
 
-  @RequireRole(Role.AUDITOR)
+  @Roles(Role.AUDITOR)
   @Get()
   async findAll(): Promise<UserPublicOwn[]> {
     const users = await this.userModelService.findAll();
     return users.map((user) => new UserPublicOwn(user));
   }
 
-  @RequireRole(Role.AUDITOR)
+  @Roles(Role.AUDITOR)
   @Get(':id')
   async findOne(@Param('id') userId: number): Promise<UserPublicOwn> {
     const user = await this.userModelService.findOne({

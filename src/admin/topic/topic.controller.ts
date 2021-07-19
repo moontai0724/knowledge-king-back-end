@@ -10,14 +10,14 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { plainToClass, plainToClassFromExist } from 'class-transformer';
-import { RequireRole } from '../../decorators/roles.decorator';
+import { Roles } from '../../decorators/roles.decorator';
 import { GroupModelService } from '../../models/group/group.service';
 import { Topic } from '../../models/topic/topic.entity';
 import { TopicModelService } from '../../models/topic/topic.service';
 import { Role } from '../../models/user/user.entity';
 import { CreateTopicDto, PatchTopicDto } from './topic.class';
 
-@RequireRole(Role.ADMIN)
+@Roles(Role.ADMIN)
 @Controller('admin/topics')
 export class TopicController {
   constructor(
@@ -25,13 +25,13 @@ export class TopicController {
     private groupModelService: GroupModelService,
   ) {}
 
-  @RequireRole(Role.USER)
+  @Roles(Role.USER)
   @Get()
   async findAll(): Promise<Topic[]> {
     return this.topicModelService.findAll();
   }
 
-  @RequireRole(Role.USER)
+  @Roles(Role.USER)
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<Topic> {
     const target: Topic = await this.topicModelService
