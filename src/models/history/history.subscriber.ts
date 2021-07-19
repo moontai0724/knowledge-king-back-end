@@ -23,10 +23,13 @@ export class HistorySubscriber implements EntitySubscriberInterface<History> {
         limit: v.question.time_limit,
         used: v.time_used,
       }))
-      .reduce((previous, current) => ({
-        limit: previous.limit + current.limit,
-        used: previous.used + current.used,
-      }));
+      .reduce(
+        (previous, current) => ({
+          limit: previous.limit + current.limit,
+          used: previous.used + current.used,
+        }),
+        { limit: 0, used: 0 },
+      );
     history.total_time_limit = limit;
     history.total_time_used = used;
   }
