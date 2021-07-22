@@ -13,15 +13,22 @@ export class TopicModelService {
   ) {}
 
   async findAll(): Promise<Topic[]> {
-    return this.repository.find();
+    const query = this.repository
+      .createQueryBuilder('topic')
+      .leftJoinAndSelect('topic.group', 'group')
+      .loadRelationCountAndMap('topic.question_amount', 'topic.questions');
+    return query.getMany();
   }
 
   async findOne(
     where: FindOneTopicParam | FindOneTopicParam[],
   ): Promise<Topic> {
-    return this.repository.findOneOrFail({
-      where: where,
-    });
+    const query = this.repository
+      .createQueryBuilder('topic')
+      .where(where)
+      .leftJoinAndSelect('topic.group', 'group')
+      .loadRelationCountAndMap('topic.question_amount', 'topic.questions');
+    return query.getOne();
   }
 
   async save(topic: Topic): Promise<Topic> {

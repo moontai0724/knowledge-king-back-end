@@ -24,16 +24,21 @@ export class Topic {
   title: string;
 
   @Expose()
+  @IsNumber()
+  @Type(() => Number)
+  question_amount?: number;
+
+  @Expose()
   @IsObject()
   @IsOptional()
   @ValidateNested()
   @Type(() => Group)
-  group: Group;
+  group?: Group;
 
   @Expose()
   @IsArray()
   @IsOptional()
   @ValidateNested()
   @Type(() => Question)
-  questions: Question[];
+  questions?: Question[];
 }
